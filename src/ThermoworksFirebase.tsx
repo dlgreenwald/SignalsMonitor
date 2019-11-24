@@ -96,7 +96,6 @@ export class ThermoworksFirebase {
     devicesQuery.forEach((device) => {
       var devObj = device.toJSON() as ISignalsDevice;
 
-      console.log(devObj);
       this.smokeDevices.set(devObj.deviceName,devObj);
       //init empty temp data
       this.tempData.set(devObj.deviceName+":"+devObj.probe1Name, [])
@@ -143,15 +142,12 @@ export class ThermoworksFirebase {
 
     var details = await this.fbInstance.database().ref().child("signals").child(deviceID).limitToLast(20).once("value");
     var deviceDetails:ISignalsDeviceDetails = details.toJSON() as ISignalsDeviceDetails
-    console.log("replacing probe details");
-    console.log(deviceDetails);
     
     //It pains me to write code like this, but it's unavoidable with the way the data is stuctured.
     //The best thing we can do is restructure the data as soon as we have it.
     //P1
     var temp = this.tempData.get(deviceName+":"+deviceDetails.names.p1)
     if(temp !== undefined && temp[temp.length-1]!==undefined){
-      console.log(temp[temp.length-1]);
       this.probeState.set(deviceName+":"+deviceDetails.names.p1, {
         temp:temp[temp.length-1].value.toString(),
         date:temp[temp.length-1].date,
