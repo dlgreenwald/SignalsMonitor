@@ -3,11 +3,15 @@ import './App.css';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
-
+import {CardProps} from 'react-bootstrap/Card'
 
 
 interface MyProps {name: string, probe:{ "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}};
-interface MyState {name: string, probe:{ "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}};
+interface MyState {
+    name: string, 
+    background:CardProps["bg"],
+    text:CardProps["text"],
+    probe:{ "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}};
   
   class TempDisplay extends Component<MyProps, MyState> {
     constructor(props:MyProps){
@@ -15,19 +19,40 @@ interface MyState {name: string, probe:{ "temp":string, "date":Date, "alarm":boo
 
         this.state = {
             probe:props.probe,
-            name:props.name
+            name:props.name,
+            background:"light",
+            text:"white"
         }
     }
 
     componentWillReceiveProps(nextProps:MyProps) {
-        this.setState(nextProps);  
+        var temp:Number = Number(this.state.probe.temp);
+        var alarmHigh:Number = Number(this.state.probe.alarmHigh);
+        var alarmLow:Number = Number(this.state.probe.alarmLow);
+
+        var newBackground:CardProps["bg"] = 'light';
+        var newText:CardProps["text"] = "secondary";
+        if((alarmLow < temp) && (temp < alarmHigh)){
+            newBackground = 'light';
+            newText = 'secondary';
+        }
+        if((alarmLow > temp)){
+            newBackground = "primary";
+            newText = 'white';
+        }
+        if((temp > alarmHigh)){
+            newBackground = "danger";
+            newText="white";
+        }
+
+        this.setState({...nextProps, background:newBackground, text:newText});  
       }
 
 
     render() {
         return(
             <>
-            <Card className="m-2" style={{flex: 1}} text="secondary">
+            <Card className="m-2" bg={this.state.background} style={{flex: 1}} text={this.state.text}>
                 <Card.Title>{this.state.name}</Card.Title>
                 <Card.Body>
                     <Row>
