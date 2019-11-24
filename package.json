@@ -3,11 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@bit/react-bootstrap.react-bootstrap.button": "^1.0.0",
-    "@bit/react-bootstrap.react-bootstrap.form": "^1.0.0",
-    "@bit/react-bootstrap.react-bootstrap.form-check": "^1.0.0",
-    "@bit/react-bootstrap.react-bootstrap.internal.style-links": "^1.0.0",
-    "@bit/react-bootstrap.react-bootstrap.modal": "^1.0.0",
     "@types/jest": "24.0.23",
     "@types/node": "12.12.11",
     "@types/react": "16.9.11",
