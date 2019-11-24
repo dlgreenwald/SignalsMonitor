@@ -1,4 +1,21 @@
+![Screenshot of Graph and Temp Cards](https://github.com/dlgreenwald/SignalsMontior/raw/master/screenshot.png)
+
+## Signals Monitor
+Signals Monitor is a project with attemps to create an improved experiance for the [Signals 4-Channel BBQ Alarm Thermometer with Wi-Fi and Bluetooth Wireless Technology](https://www.thermoworks.com/Signals).  You will need to have previously registered your Signals to your account via the mobile app.  You will provide the email and password you used to login to the Thermoworks application to connect and pull your data. Currently the only functionality is graphing and a "quick view" of all probes in an account which have active data.  This can lead to some weirdness with disonnected probes still displaying their last value (#TODO).  The quick view also provides a visual alert of Max and Min values being exceed with a color change.
+
+It shoudl be possible to expand it to work with the [Smoke Gateway](https://www.thermoworks.com/Smoke-Gateway) the as well as the datasource is the same for both prodcuts given access to one.
+
+This project was enabled by [python-thermoworks-smoke](https://pypi.org/project/thermoworks-smoke/) which provided the firebase apiKey and other parameters mined from the android APK.  I too hope they don't mind too much.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+### Desired upcoming features
+* Auditory Alarm
+* Actual Site hosted on GitHub Pages
+* Save data to CSV
+* Save graph image
+* Display max and min values on graph
+* Display lines on graph for MaxAlarm and MinAlarm (probably needs to be selectable)
 
 ## Available Scripts
 
@@ -26,16 +43,6 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Learn More
 
