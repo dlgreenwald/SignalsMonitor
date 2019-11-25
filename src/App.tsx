@@ -3,13 +3,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import MetricsGraphics from 'react-metrics-graphics';
 import LoginModal from './LoginModal';
-import 'metrics-graphics/dist/metricsgraphics.css';
 import {ThermoworksFirebase} from './ThermoworksFirebase';
 import 'jquery';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import TempColumn from './TempColumn';
+import './mggraphics.css'
 
 interface MyProps {
 
@@ -70,7 +70,6 @@ class App extends Component<{}, MyState> {
             <Col md="10">          
               <MetricsGraphics
                 title="Temperature over Time"
-                description="This graphic shows a time-series of temperature."
                 data={ this.state.tempData }
                 full_width="true"
                 height={600}
