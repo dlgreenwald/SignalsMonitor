@@ -3,6 +3,7 @@ import './App.css';
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
+import GithubCorner from 'react-github-corner';
 
 
 
@@ -62,6 +63,7 @@ class LoginModal extends Component<MyProps, MyState> {
       <Form onSubmit={this.handleSubmit}>
         <Modal.Header>
           <Modal.Title>Login with Thermoworks Account</Modal.Title>
+          <GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="right" size="60" octoColor="white" bannerColor="grey" />
         </Modal.Header>
         <Modal.Body>
           <Form.Group controlId="formBasicEmail">

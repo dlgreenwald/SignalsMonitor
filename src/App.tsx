@@ -9,7 +9,8 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import TempColumn from './TempColumn';
-import './mggraphics.css'
+import './mggraphics.css';
+import GithubCorner from 'react-github-corner';
 
 interface MyProps {
 
@@ -65,6 +66,7 @@ class App extends Component<{}, MyState> {
     return (
       <div className="App">
         <header className="App-header">
+          <GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
           <Container fluid >
           <Row>
             <Col md="10">          
