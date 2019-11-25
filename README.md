@@ -5,7 +5,7 @@ Signals Monitor is a project with attemps to create an improved experiance for t
 
 It shoudl be possible to expand it to work with the [Smoke Gateway](https://www.thermoworks.com/Smoke-Gateway) the as well as the datasource is the same for both prodcuts given access to one.
 
-This project was enabled by [python-thermoworks-smoke](https://pypi.org/project/thermoworks-smoke/) which provided the firebase apiKey and other parameters mined from the android APK.  I too hope they don't mind too much.
+This project was enabled by [python-thermoworks-smoke](https://pypi.org/project/thermoworks-smoke/) which provided the firebase apiKey and other parameters mined from the android APK.  [I too hope they don't mind too much.](https://github.com/nhorvath/python-thermoworks-smoke/blob/cf3e11b3723a8617c8cd84929a22b372030014f8/thermoworks_smoke/thermoworks_smoke.py#L42)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
