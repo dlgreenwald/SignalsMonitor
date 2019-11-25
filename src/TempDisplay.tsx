@@ -21,7 +21,7 @@ interface MyState {
             probe:props.probe,
             name:props.name,
             background:"light",
-            text:"white"
+            text:"secondary"
         }
     }
 
