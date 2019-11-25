@@ -34,11 +34,11 @@ class LoginModal extends Component<MyProps, MyState> {
   }
 
   handleClose() {
-		this.setState({ show: false });
+		this.setState({...this.state, show: false });
 	}
 
 	handleShow() {
-		this.setState({ show: true });
+		this.setState({...this.state, show: true });
 	}
 
   handleChange(event: React.FormEvent) {
@@ -46,8 +46,10 @@ class LoginModal extends Component<MyProps, MyState> {
     this.setState({...this.state, [target.name]: target.value});
   }
 
-  async handleSubmit(event: React.MouseEvent) {
+  handleSubmit(event:React.FormEvent<HTMLFormElement>) {
     this.props.onLogin(this.state.username, this.state.password);
+    this.setState({...this.state, show: false });
+    event.preventDefault();
   }
 
   render() {
@@ -56,12 +58,12 @@ class LoginModal extends Component<MyProps, MyState> {
       <Button variant="primary" onClick={this.handleShow}>
         Get Started
       </Button>
-      <Modal show={this.state.show} onHide={this.handleClose}>
-        <Modal.Header closeButton>
+      <Modal show={this.state.show}>
+      <Form onSubmit={this.handleSubmit}>
+        <Modal.Header>
           <Modal.Title>Login with Thermoworks Account</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control name="username" type="email" value={this.state.username} placeholder="Enter email" onChange={this.handleChange}/>
@@ -75,20 +77,14 @@ class LoginModal extends Component<MyProps, MyState> {
             <Form.Control name="password" type="password" value={this.state.password} placeholder="Password" onChange={this.handleChange}/>
           </Form.Group>
 
-          <Button variant="primary" onClick={this.handleSubmit}>
-            Submit
-          </Button>
-
-        </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={this.handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={this.handleClose}>
-            Save Changes
+
+          <Button type="submit" variant="primary">
+            Login
           </Button>
         </Modal.Footer>
+        </Form>
       </Modal>
       </>
     );
