@@ -2,7 +2,7 @@
   "name": "demo-react",
   "version": "0.1.0",
   "private": true,
-  "homepage":"https://thermoworksmonitor.github.io",
+  "homepage":"https://www.dlgreen.com/SignalsMontior/",
   "dependencies": {
     "@types/jest": "24.0.23",
     "@types/node": "12.12.11",
