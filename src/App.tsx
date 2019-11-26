@@ -20,6 +20,7 @@ interface MyState {
   tempData:Array<Array<{ 'date': Date; 'value': number; }>>;
   curTemps:Map<string, { 'date': Date; 'value': number; }>;
   probeDetails:Map<string, { "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}>;
+  showLogin:boolean;
 };
 class App extends Component<{}, MyState> {
   constructor(state:MyProps){
@@ -29,7 +30,8 @@ class App extends Component<{}, MyState> {
       firebase: new ThermoworksFirebase(),
       tempData:  [],
       curTemps: new Map(),
-      probeDetails: new Map()
+      probeDetails: new Map(),
+      showLogin:true
     };
   }
 
@@ -38,6 +40,7 @@ class App extends Component<{}, MyState> {
     this.state.firebase.setCredentials(username, password);
     this.state.firebase.setOnTempUpdate(this.onTempUpdate.bind(this));
     await this.state.firebase.init();
+    this.setState({...this.state, showLogin:false})
   }
 
   onTempUpdate(){
@@ -88,7 +91,7 @@ class App extends Component<{}, MyState> {
           </Row>
           </Container>
 
-          <LoginModal onLogin={this.onLogin.bind(this)}/>
+          <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this) }/>
 
         </header>
       </div>

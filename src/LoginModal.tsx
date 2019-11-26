@@ -4,17 +4,17 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import GithubCorner from 'react-github-corner';
-
-
-
+import Spinner from 'react-bootstrap/Spinner'
 
 interface MyProps {
+  show:boolean,
   onLogin:(username:string, password:string) => any;
 };
 interface MyState {
   show: boolean
   username: string
   password: string
+  loginSubmitted:boolean
 };
 
 class LoginModal extends Component<MyProps, MyState> {
@@ -28,10 +28,15 @@ class LoginModal extends Component<MyProps, MyState> {
     this.handleSubmit = this.handleSubmit.bind(this);
 
 		this.state = {
-			show: true,
+			show: props.show,
       username: '',
-      password: ''
+      password: '',
+      loginSubmitted:false
 		};
+  }
+
+  componentWillReceiveProps(nextProps:MyProps) {
+    this.setState({...this.state, show:nextProps.show});  
   }
 
   handleClose() {
@@ -39,7 +44,7 @@ class LoginModal extends Component<MyProps, MyState> {
 	}
 
 	handleShow() {
-		this.setState({...this.state, show: true });
+		this.setState({...this.state, show: true, loginSubmitted:false});
 	}
 
   handleChange(event: React.FormEvent) {
@@ -49,7 +54,7 @@ class LoginModal extends Component<MyProps, MyState> {
 
   handleSubmit(event:React.FormEvent<HTMLFormElement>) {
     this.props.onLogin(this.state.username, this.state.password);
-    this.setState({...this.state, show: false });
+    this.setState({...this.state, loginSubmitted:true });
     event.preventDefault();
   }
 
@@ -82,8 +87,8 @@ class LoginModal extends Component<MyProps, MyState> {
         </Modal.Body>
         <Modal.Footer>
 
-          <Button type="submit" variant="primary">
-            Login
+          <Button type="submit" variant="primary" disabled={this.state.loginSubmitted}>
+            Login {this.state.loginSubmitted && <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true"/>}
           </Button>
         </Modal.Footer>
         </Form>
