@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import {CardProps} from 'react-bootstrap/Card'
+import Container from 'react-bootstrap/Container'
 
 
 interface MyProps {name: string, probe:{ "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}};
@@ -52,22 +53,24 @@ interface MyState {
     render() {
         return(
             <>
-            <Card className="m-2" bg={this.state.background} style={{flex: 1}} text={this.state.text}>
+            <Card className="m-2" bg={this.state.background} style={{width:"220px", flex: 1}} text={this.state.text}>
                 <Card.Title>{this.state.name}</Card.Title>
                 <Card.Body>
+                <Container fluid>
                     <Row>
-                        <Col>
+                        <Col xs="4">
                             <Row><Col><Row style={{fontSize:"xx-small"}}>MinAlarm</Row><Row>{this.state.probe.alarmLow}</Row></Col></Row>
                             <Row><Col><Row style={{fontSize:"xx-small"}}>MaxAlarm</Row><Row>{this.state.probe.alarmHigh}</Row></Col></Row>
                         </Col>
-                        <Col>
+                        <Col xs="4">
                             <Row style={{fontSize:"xxx-large", writingMode:"vertical-lr"}}>{this.state.probe.temp}°</Row>
                         </Col>
-                        <Col>
+                        <Col xs="4">
                             <Row><Col><Row style={{fontSize:"xx-small"}}>Min</Row><Row>{this.state.probe.min}</Row></Col></Row>
                             <Row><Col><Row style={{fontSize:"xx-small"}}>Max</Row><Row>{this.state.probe.max}</Row></Col></Row>
                         </Col>
                     </Row>
+                </Container>
                 </Card.Body>
             </Card>
             </>

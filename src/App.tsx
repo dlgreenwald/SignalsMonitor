@@ -35,7 +35,6 @@ class App extends Component<{}, MyState> {
     };
   }
 
-
   async onLogin(username:string, password:string){
     this.state.firebase.setCredentials(username, password);
     this.state.firebase.setOnTempUpdate(this.onTempUpdate.bind(this));
@@ -72,7 +71,7 @@ class App extends Component<{}, MyState> {
           <GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
           <Container fluid >
           <Row>
-            <Col md="10">          
+            <Col xs="12" sm="9" md="9">          
               <MetricsGraphics
                 title="Temperature over Time"
                 data={ this.state.tempData }
@@ -84,14 +83,15 @@ class App extends Component<{}, MyState> {
                 area="false"
                 brush="xy"
               />
+              <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this) }/>
             </Col>
-            <Col md="2">
+            <Col xs="auto">
                 <TempColumn curTemps={this.state.curTemps} probeDetails={this.state.probeDetails}/>
             </Col>
           </Row>
           </Container>
 
-          <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this) }/>
+          
 
         </header>
       </div>
