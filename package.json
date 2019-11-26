@@ -14,6 +14,7 @@
     "metrics-graphics": "^2.15.6",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
+    "react-container-dimensions": "^1.4.1",
     "react-dom": "^16.12.0",
     "react-github-corner": "^2.3.0",
     "react-metrics-graphics": "^1.1.2",

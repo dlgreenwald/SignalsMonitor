@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col'
 import TempColumn from './TempColumn';
 import './mggraphics.css';
 import GithubCorner from 'react-github-corner';
+import ContainerDimensions from 'react-container-dimensions';
 
 interface MyProps {
 
@@ -71,18 +72,22 @@ class App extends Component<{}, MyState> {
           <GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
           <Container fluid >
           <Row>
-            <Col xs="12" sm="9" md="9">          
-              <MetricsGraphics
-                title="Temperature over Time"
-                data={ this.state.tempData }
-                full_width="true"
-                height={600}
-                x_accessor="date"
-                y_accessor="value"
-                right="40"
-                area="false"
-                brush="xy"
-              />
+            <Col xs="12" sm="9" md="9">
+              <ContainerDimensions>
+                { ({width, height}) => 
+                  <MetricsGraphics
+                  title="Temperature over Time"
+                  data={ this.state.tempData }
+                  full_width="true"
+                  height={600}
+                  x_accessor="date"
+                  y_accessor="value"
+                  right="40"
+                  area="false"
+                  brush="xy"
+                />
+                }
+              </ContainerDimensions>
               <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this) }/>
             </Col>
             <Col xs="auto">
