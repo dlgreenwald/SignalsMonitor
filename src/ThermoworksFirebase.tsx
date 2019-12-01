@@ -14,11 +14,25 @@ interface ISignalsDevice {
   wifiOnly:string;
 }
 
-interface ITempRecord{
+interface ISmokeDevice {
+  device:string;
+  dateAdded:string;
+  deviceName:string;
+  probe1Name:string;
+  probe2Name:string;
+}
+
+interface ISignalsTempRecord{
   p1:string,
   p2:string,
   p3:string,
   p4:string,
+  time:string
+}
+
+interface ISmokeTempRecord{
+  probe1:string,
+  probe2:string,
   time:string
 }
 
@@ -39,12 +53,24 @@ interface ISignalsDeviceDetails{
   tempunit:{unit:string}
 }
 
+interface ISmokeDeviceDetails{
+    alarms:{ alarm1High:boolean, alarm1Low:boolean, alarm2High:boolean, alarm2Low:boolean, probe1H:string, probe1L:string, probe2H:string, probe2L:string},
+    data:{battery:number,firmware:string,wifi:number},
+    hidden:{probe1:boolean, probe2:boolean, showMaxMinP1:boolean, showMaxMinP2:true},
+    minMax:{probe1Max:string, probe1Min:string, probe2Max:string, probe2Min:string},
+    notification:{trigger1H:boolean, trigger1L:boolean, trigger2H:boolean, trigger2L:boolean, triggerLoss:boolean},
+    probeNames:{probe1:string, probe2:string},
+    unit:{probe1:string,probe2:string},
+    update:{canUpdate:boolean,time:number}
+}
+
 export class ThermoworksFirebase {
   fbInstance: firebase.app.App;
   username: string;
   password: string;
   uid: string;
-  smokeDevices: Map<String, ISignalsDevice>;
+  signalDevices: Map<String, ISignalsDevice>;
+  smokeDevices: Map<String, ISmokeDevice>;
   tempData:Map<string, Array<{ 'date': Date; 'value': number; }>>;
   probeState:Map<string, { "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}>;
   onDataUpdate?:() => any;
@@ -63,6 +89,7 @@ export class ThermoworksFirebase {
     this.username = '';
     this.password = '';
     this.uid = '';
+    this.signalDevices = new Map();
     this.smokeDevices = new Map();
     this.tempData = new Map();
     this.onDataUpdate = undefined;
@@ -76,9 +103,9 @@ export class ThermoworksFirebase {
 
   async init(){
     this.uid = '';
-    this.smokeDevices = new Map();
+    this.signalDevices = new Map();
     await this.fbInstance.auth().signInWithEmailAndPassword(this.username, this.password).catch(function(error) {
-      // Handle Errors here.
+      // Handle Errors here.  @TODO probably need a better way of handling errors with a callback.
       var errorCode = error.code;
       var errorMessage = error.message;
       if (errorCode === 'auth/wrong-password') {
@@ -91,12 +118,13 @@ export class ThermoworksFirebase {
     this.uid = this.fbInstance.auth().currentUser!.uid;
 
     //we have to wait for this to come back once to finish init, but we also need to subscribe to changes.
-    var devicesQuery = await this.fbInstance.database().ref().child("users").child(this.uid).child("devices").child("signals").once("value");
-    
-    devicesQuery.forEach((device) => {
+    //init signals devices
+    var signalsDevicesQuery = await this.fbInstance.database().ref().child("users").child(this.uid).child("devices").child("signals").once("value");
+  
+    signalsDevicesQuery.forEach((device) => {
       var devObj = device.toJSON() as ISignalsDevice;
 
-      this.smokeDevices.set(devObj.deviceName,devObj);
+      this.signalDevices.set(devObj.deviceName,devObj);
       //init empty temp data
       this.tempData.set(devObj.deviceName+":"+devObj.probe1Name, [])
       this.tempData.set(devObj.deviceName+":"+devObj.probe2Name, [])
@@ -104,21 +132,43 @@ export class ThermoworksFirebase {
       this.tempData.set(devObj.deviceName+":"+devObj.probe4Name, [])
 
       //subscribe to update events on each device
-      this.start(devObj);
+      this.signalsStart(devObj);
     });
 
+    //This actually won't work yet, I don't know the dataformat of a user with a smoke device.
+    var smokeDevicesQuery = await this.fbInstance.database().ref().child("users").child(this.uid).child("devices").child("smoke").once("value");
+
+    smokeDevicesQuery.forEach((device) => {
+      var devObj = device.toJSON() as ISmokeDevice;
+      //console.log(devObj);
+      this.smokeDevices.set(devObj.deviceName,devObj);
+      //init empty temp data
+      this.tempData.set(devObj.deviceName+":"+devObj.probe1Name, [])
+      this.tempData.set(devObj.deviceName+":"+devObj.probe2Name, [])
+
+      //subscribe to update events on each device
+      this.smokeStart(devObj);
+    });
+
+    // var smokeTestArray = ["60:64:05:B3:AA:89", "F4:B8:5E:C6:42:50"];
+    // smokeTestArray.forEach((device) => {
+    //   var mockDevice:ISmokeDevice = {device:device, deviceName:device, dateAdded:new Date().toString(), probe1Name:"Probe 1", probe2Name:"Probe 2"};
+
+    //   this.smokeDevices.set(mockDevice.deviceName, mockDevice);
+
+    //   this.tempData.set(device+":"+"Probe 1", []);
+    //   this.tempData.set(device+":"+"Probe 2", []);
+
+    //   this.smokeStart(mockDevice);
+    // })
   }
 
-  //Gets the Signals Devices.  Smoke Devices are at "users/[uid]/devices/smoke" but I don't have one so I can't make this reliable.  Only need to do this at login
-  getSignalsDevices(){
-    return this.smokeDevices;
-  }
-
+  //Returns temp data for all probes on both smoke and signals devices
   returnTempData(): Map<string, Array<{ 'date': Date; 'value': number; }>>{
     return this.tempData;
   }
 
- 
+ //@TODO make this return type a interface that is imported (or exported)
   returnProbeDetails(): Map<string, { "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}>{
     return this.probeState; 
   }
@@ -128,20 +178,28 @@ export class ThermoworksFirebase {
   }
 
 
-  start(device: ISignalsDevice){
-    this.fbInstance.database().ref().child("SignalTemps").child(device.deviceID).limitToLast(100).on("value", (snapshot_ => this.addTempData(device.deviceName, snapshot_)));
+  //This starts a ongoing query with firebase for updates on a sepcific signal device
+  signalsStart(device: ISignalsDevice){
+    this.fbInstance.database().ref().child("SignalTemps").child(device.deviceID).limitToLast(100).on("value", (snapshot_ => this.addSignalsTempData(device.deviceName, snapshot_)));
+  }
+  
+  //This starts a ongoing query with firebase for updates on a sepcific smoke device
+  smokeStart(device: ISmokeDevice){
+    this.fbInstance.database().ref().child("smokeTemp").child(device.device).limitToLast(100).on("value", (snapshot_ => this.addSmokeTempData(device.deviceName, snapshot_)));
   }
 
-  async replaceProbeDetails(deviceName:string){
+  //This fetches and replaces the signals device details.  It's current called once fore each temp update.  
+  //@TODO It would probably be better for it to have a similar update method as addTempData, both methods should call a common convert function. That way we make fewer calls to the database
+  async replaceSignalsProbeDetails(deviceName:string){
     //lets do the conversion here rather than when requested.
-    var device = this.smokeDevices.get(deviceName);
+    var device = this.signalDevices.get(deviceName);
     var deviceID:string = "";
     if(device!==undefined){
       deviceID=device.deviceID;
     }
 
     var details = await this.fbInstance.database().ref().child("signals").child(deviceID).limitToLast(20).once("value");
-    var deviceDetails:ISignalsDeviceDetails = details.toJSON() as ISignalsDeviceDetails
+    var deviceDetails = details.toJSON() as ISignalsDeviceDetails
     
     //It pains me to write code like this, but it's unavoidable with the way the data is stuctured.
     //The best thing we can do is restructure the data as soon as we have it.
@@ -206,11 +264,11 @@ export class ThermoworksFirebase {
     }
   }
   
-  async addTempData(deviceName:string, a:firebase.database.DataSnapshot){
-    var device = this.smokeDevices.get(deviceName);
+  async addSignalsTempData(deviceName:string, a:firebase.database.DataSnapshot){
+    var device = this.signalDevices.get(deviceName);
 
     a.forEach((record:firebase.database.DataSnapshot) => {
-      var data = record.toJSON() as ITempRecord;
+      var data = record.toJSON() as ISignalsTempRecord;
 
       var d = new Date(0);
       d.setUTCSeconds(Number(data.time));
@@ -224,7 +282,73 @@ export class ThermoworksFirebase {
       }
     });
 
-    await this.replaceProbeDetails(deviceName);
+    await this.replaceSignalsProbeDetails(deviceName);
+
+    if(this.onDataUpdate!==undefined){
+      this.onDataUpdate();
+    }
+
+  }
+
+  async replaceSmokeProbeDetails(deviceName:string){
+    var device = this.smokeDevices.get(deviceName);
+    var deviceID:string = "";
+    if(device!==undefined){
+      deviceID=device.device;
+    }
+
+    var details = await this.fbInstance.database().ref().child("smoke").child(deviceID).limitToLast(20).once("value");
+    var deviceDetails = details.toJSON() as ISmokeDeviceDetails;
+
+    //It pains me to write code like this, but it's unavoidable with the way the data is stuctured.
+    //The best thing we can do is restructure the data as soon as we have it.
+    //P1
+    var temp = this.tempData.get(deviceName+":"+deviceDetails.probeNames.probe1)
+    if(temp !== undefined && temp[temp.length-1]!==undefined){
+      this.probeState.set(deviceName+":"+deviceDetails.probeNames.probe1, {
+        temp:temp[temp.length-1].value.toString(),
+        date:temp[temp.length-1].date,
+        alarm:Boolean(deviceDetails.alarms.alarm1High)||Boolean(deviceDetails.alarms.alarm1Low),
+        alarmHigh:deviceDetails.alarms.probe1H,
+        alarmLow:deviceDetails.alarms.probe1L,
+        max:deviceDetails.minMax.probe1Max,
+        min:deviceDetails.minMax.probe1Min,
+        name:deviceName
+      });
+    }
+
+    //P2
+    temp = this.tempData.get(deviceName+":"+deviceDetails.probeNames.probe2)
+    if(temp !== undefined && temp[temp.length-1]!==undefined){
+      this.probeState.set(deviceName+":"+deviceDetails.probeNames.probe2, {
+        temp:temp[temp.length-1].value.toString(),
+        date:temp[temp.length-1].date,
+        alarm:Boolean(deviceDetails.alarms.alarm2High)||Boolean(deviceDetails.alarms.alarm2Low),
+        alarmHigh:deviceDetails.alarms.probe2H,
+        alarmLow:deviceDetails.alarms.probe2L,
+        max:deviceDetails.minMax.probe2Max,
+        min:deviceDetails.minMax.probe2Min,
+        name:deviceName
+      });
+    }
+  }
+
+  async addSmokeTempData(deviceName:string, a:firebase.database.DataSnapshot){
+    var device = this.smokeDevices.get(deviceName);
+
+    a.forEach((record:firebase.database.DataSnapshot) => {
+      var data = record.toJSON() as ISmokeTempRecord;
+
+      var d = new Date(0);
+      d.setUTCSeconds(Number(data.time));
+
+      if(device!== undefined){
+        data.probe1!=="---"&&this.tempData.get(device.deviceName+":"+device.probe1Name)!.push({date:d, value:Number(data.probe1)});
+        data.probe2!=="---"&&this.tempData.get(device.deviceName+":"+device.probe2Name)!.push({date:d, value:Number(data.probe2)});
+      }
+    });
+
+    await this.replaceSmokeProbeDetails(deviceName);
 
     if(this.onDataUpdate!==undefined){
       this.onDataUpdate();
