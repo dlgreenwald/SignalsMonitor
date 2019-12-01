@@ -53,7 +53,9 @@ class App extends Component<{}, MyState> {
     //Store all data as Array of Arrays for graph
     var newTemps:Array<Array<{ 'date': Date; 'value': number; }>>=[];
     this.state.firebase.returnTempData().forEach((probe)=>{
-      newTemps.push(probe);
+      if(probe.length!==0){//the graph componant chokes if it's passed empty datasets.
+        newTemps.push(probe);
+      }
     })
 
     var newProbeDetails = this.state.firebase.returnProbeDetails();
