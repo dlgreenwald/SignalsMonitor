@@ -29,8 +29,6 @@ interface MyState {
         this.setState({ curTemps: nextProps.curTemps, probeDetails:nextProps.probeDetails  });  
       }
 
-
-
     render() {
         var TempElements:Array<any> = [];
         this.state.probeDetails.forEach((device, key) => 
@@ -40,9 +38,11 @@ interface MyState {
             )
         return(
             <>
-            <CardDeck  style={{display:"flex", flexDirection:"column"}}>
-                {TempElements}
-            </CardDeck>
+            <div id="cardDeckContainer" className="row">
+                <CardDeck id="cardDeck" className="col">
+                    {TempElements}
+                </CardDeck>
+            </div>
             </>
         )
     }

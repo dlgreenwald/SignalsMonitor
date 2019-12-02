@@ -49,30 +49,31 @@ interface MyState {
         this.setState({...nextProps, background:newBackground, text:newText});  
       }
 
-
     render() {
         return(
             <>
-            <Card className="m-2" bg={this.state.background} style={{width:"220px", flex: 1}} text={this.state.text}>
-                <Card.Title>{this.state.name}</Card.Title>
-                <Card.Body>
-                <Container fluid>
-                    <Row>
-                        <Col xs="4">
-                            <Row><Col><Row style={{fontSize:"xx-small"}}>MinAlarm</Row><Row>{this.state.probe.alarmLow}</Row></Col></Row>
-                            <Row><Col><Row style={{fontSize:"xx-small"}}>MaxAlarm</Row><Row>{this.state.probe.alarmHigh}</Row></Col></Row>
-                        </Col>
-                        <Col xs="4">
-                            <Row style={{fontSize:"xxx-large", writingMode:"vertical-lr"}}>{this.state.probe.temp}°</Row>
-                        </Col>
-                        <Col xs="4">
-                            <Row><Col><Row style={{fontSize:"xx-small"}}>Min</Row><Row>{this.state.probe.min}</Row></Col></Row>
-                            <Row><Col><Row style={{fontSize:"xx-small"}}>Max</Row><Row>{this.state.probe.max}</Row></Col></Row>
-                        </Col>
-                    </Row>
-                </Container>
-                </Card.Body>
-            </Card>
+            <div className="row cardContainer">
+                <Card className="col card" bg={this.state.background} text={this.state.text}>
+                    <Card.Title style={{textAlign:"center"}}>{this.state.name}</Card.Title>
+                    <Card.Body style={{padding:0}}>
+                    <Container fluid>
+                        <Row style={{padding:0}}>
+                            <Col xs="4">
+                                <Row><Col><Row style={{fontSize:"xx-small"}}>MinAlarm</Row><Row>{this.state.probe.alarmLow}</Row></Col></Row>
+                                <Row><Col><Row style={{fontSize:"xx-small"}}>MaxAlarm</Row><Row>{this.state.probe.alarmHigh}</Row></Col></Row>
+                            </Col>
+                            <Col xs="4">
+                                <Row style={{fontSize:"xxx-large", writingMode:"vertical-lr"}}>{this.state.probe.temp}°</Row>
+                            </Col>
+                            <Col xs="4">
+                                <Row><Col><Row style={{fontSize:"xx-small"}}>Min</Row><Row>{this.state.probe.min}</Row></Col></Row>
+                                <Row><Col><Row style={{fontSize:"xx-small"}}>Max</Row><Row>{this.state.probe.max}</Row></Col></Row>
+                            </Col>
+                        </Row>
+                    </Container>
+                    </Card.Body>
+                </Card>
+            </div>
             </>
         )
     }

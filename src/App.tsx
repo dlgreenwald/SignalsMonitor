@@ -65,42 +65,47 @@ class App extends Component<{}, MyState> {
     });
   }
 
-  
+  //<GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
+
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
-          <Container fluid >
-          <Row>
-            <Col xs="12" sm="9" md="9">
-              <ContainerDimensions>
-                { ({width, height}) => 
-                  <MetricsGraphics
-                  title="Temperature over Time"
-                  data={ this.state.tempData }
-                  full_width="true"
-                  height={600}
-                  x_accessor="date"
-                  y_accessor="value"
-                  right="40"
-                  area="false"
-                  brush="xy"
-                />
-                }
-              </ContainerDimensions>
-              <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this) }/>
-            </Col>
-            <Col xs="auto">
-                <TempColumn curTemps={this.state.curTemps} probeDetails={this.state.probeDetails}/>
-            </Col>
-          </Row>
-          </Container>
-
-          
-
-        </header>
+      <div id="App" className="row">
+        <GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
+        <div id="container" className="col">
+          <div id="headerContainer" className="row">
+            <div id="header">
+              Better Thermoworks Monitor
+                </div>
+          </div>
+          <div id="body" className="row">
+            <div id="irbe">
+              <div id="graphContainer" className="row">
+                <ContainerDimensions>
+                  {({ width, height }) =>
+                    <MetricsGraphics
+                      data={this.state.tempData}
+                      width={width}
+                      height={600}
+                      x_accessor="date"
+                      y_accessor="value"
+                      right="40"
+                      area="false"
+                      brush="xy"
+                    />
+                  }
+                </ContainerDimensions>
+              </div>
+              <TempColumn curTemps={this.state.curTemps} probeDetails={this.state.probeDetails} />
+            </div>
+          </div>
+          <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
+          <div id="footer" className="row">
+            <div id="footerContainer" className="col">
+              Footer goes here
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
