@@ -5,9 +5,6 @@ import MetricsGraphics from 'react-metrics-graphics';
 import LoginModal from './LoginModal';
 import {ThermoworksFirebase} from './ThermoworksFirebase';
 import 'jquery';
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import TempColumn from './TempColumn';
 import './mggraphics.css';
 import GithubCorner from 'react-github-corner';
