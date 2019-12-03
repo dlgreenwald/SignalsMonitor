@@ -13,8 +13,7 @@ interface MyProps {
 interface MyState {
     curTemps:Map<string, { 'date': Date; 'value': Number; }>,
     probeDetails:Map<string, { "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}>;
-};
-  
+}
   class TempColumn extends Component<MyProps, MyState> {
     constructor(props:MyProps){
         super(props);
@@ -27,15 +26,13 @@ interface MyState {
 
     componentWillReceiveProps(nextProps:MyProps) {
         this.setState({ curTemps: nextProps.curTemps, probeDetails:nextProps.probeDetails  });  
-      }
+    }
 
     render() {
-        var TempElements:Array<any> = [];
+        var TempElements:Array<JSX.Element> = [];
         this.state.probeDetails.forEach((device, key) => 
             TempElements.push(<TempDisplay name={key} probe={device}/>)
-            
-            
-            )
+    )
         return(
             <>
             <div id="cardDeckContainer" className="row">

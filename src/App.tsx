@@ -22,6 +22,7 @@ interface MyState {
   curTemps:Map<string, { 'date': Date; 'value': number; }>;
   probeDetails:Map<string, { "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}>;
   showLogin:boolean;
+  baselines:Array<{value:number, label:string}>;
 };
 class App extends Component<{}, MyState> {
   constructor(state:MyProps){
@@ -30,6 +31,7 @@ class App extends Component<{}, MyState> {
     this.state = {
       firebase: new ThermoworksFirebase(),
       tempData:  [],
+      baselines: [],
       curTemps: new Map(),
       probeDetails: new Map(),
       showLogin:true
@@ -60,8 +62,16 @@ onTempUpdate(){
 
     var newProbeDetails = this.state.firebase.returnProbeDetails();
 
+    var newBaselines:Array<{value:number, label:string}> =  [];
+    this.state.firebase.returnProbeDetails().forEach((value, key) => {
+      newBaselines.push({value:Number(value.alarmHigh), label:key+" High"});
+      if(value.alarmLow!=="32"){
+        newBaselines.push({value:Number(value.alarmLow), label:key+" Low"})
+      }
+    })
+
     this.setState({...this.state, 
-      tempData:newTemps, curTemps:newCurTemps, probeDetails:newProbeDetails
+      tempData:newTemps, curTemps:newCurTemps, probeDetails:newProbeDetails, baselines:newBaselines
     });
   }
 
@@ -114,6 +124,7 @@ onTempUpdate(){
                       right="40"
                       area="false"
                       brush="xy"
+                      baselines={this.state.baselines}
                     />
                   }
                 </ContainerDimensions>
@@ -127,7 +138,7 @@ onTempUpdate(){
           </div>
           <div id="footer" className="row">
             <div id="footerContainer" className="col">
-              Footer goes here
+              
             </div>
           </div>
         </div>

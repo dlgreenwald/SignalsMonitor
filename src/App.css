@@ -37,5 +37,5 @@ body{margin:0;background-color:#282c34;}
 #cardDeck{display:flex;justify-content:center;max-width:100vw;align-items:flex-start;flex-wrap:wrap;}
 #cardDeckContainer{flex:1 0;}
 
-.cardContainer{width:250px;height:250px;margin-left:0px;margin-right:0px;}
+.cardContainer{width:250px;height:200px;margin-left:0px;margin-right:0px;}
 .card-deck{margin-left:0px;margin-right:0px}
