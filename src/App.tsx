@@ -9,6 +9,9 @@ import TempColumn from './TempColumn';
 import './mggraphics.css';
 import GithubCorner from 'react-github-corner';
 import ContainerDimensions from 'react-container-dimensions';
+import Button from 'react-bootstrap/Button';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 
 interface MyProps {
 
@@ -40,7 +43,7 @@ class App extends Component<{}, MyState> {
     this.setState({...this.state, showLogin:false})
   }
 
-  onTempUpdate(){
+onTempUpdate(){
     //Store most recent data as Map for display
     var newCurTemps:Map<string, { 'date': Date; 'value': number; }> = new Map();
     this.state.firebase.returnTempData().forEach((probe, key)=>{
@@ -62,8 +65,30 @@ class App extends Component<{}, MyState> {
     });
   }
 
-  //<GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
+  async exportXLSX(){
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.xlsx';
 
+    //create book
+    var wb = XLSX.utils.book_new();
+    wb.Props = {
+      Title: "ThermoWorks Temperature Log"
+    }
+
+    this.state.firebase.returnTempData().forEach((value, key) => {
+      if(value.length!==0){
+        var sheetname = key.replace(':','-'); //xlsx silently fails once there are colons in the sheet name
+        wb.SheetNames.push(sheetname);
+        wb.Sheets[sheetname] = XLSX.utils.json_to_sheet(value);
+      }
+      
+    })
+
+    //write the book out and stream it to the browser as a file
+    var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'array'});
+    const data = new Blob([wbout], {type: fileType});
+    FileSaver.saveAs(data, "Temps" + fileExtension);
+  }
 
   render() {
     return (
@@ -73,7 +98,7 @@ class App extends Component<{}, MyState> {
           <div id="headerContainer" className="row">
             <div id="header">
               Better Thermoworks Monitor
-                </div>
+            </div>
           </div>
           <div id="body" className="row">
             <div id="irbe">
@@ -95,8 +120,11 @@ class App extends Component<{}, MyState> {
               </div>
               <TempColumn curTemps={this.state.curTemps} probeDetails={this.state.probeDetails} />
             </div>
+          </div>  
+          <div id="buttonContainer" className="col">
+            <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
+            <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
           </div>
-          <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
           <div id="footer" className="row">
             <div id="footerContainer" className="col">
               Footer goes here

@@ -16,7 +16,7 @@
 .col{min-height:75px;flex-grow:1;flex-basis:100%;}
 
 #headerContainer{flex-direction:column;height:50px;min-height:50px;margin:0px;padding:0px;font-size: calc(10px + 2vmin);color:white;text-align:center;}
-
+#buttonContainer{flex-direction:column;height:50px;min-height:50px;margin:0px;padding:0px;font-size: calc(10px + 2vmin);color:white;text-align:center;}
 
 * { box-sizing: border-box; } 
 .row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}

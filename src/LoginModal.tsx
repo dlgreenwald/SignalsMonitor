@@ -61,9 +61,7 @@ class LoginModal extends Component<MyProps, MyState> {
   render() {
     return (
       <>
-      <Button variant="primary" onClick={this.handleShow}>
-        Get Started
-      </Button>
+      <Button style={{width:"250px", margin:"15px"}} variant="primary" onClick={this.handleShow}>Get Started</Button>
       <Modal show={this.state.show}>
       <Form onSubmit={this.handleSubmit}>
         <Modal.Header>
