@@ -102,9 +102,9 @@ onTempUpdate(){
 
   render() {
     return (
-      <div id="App" style={{padding:0, margin:0}} className="row">
-        <div id="container" className="col">
+      <div id="App" style={{padding:0, margin:15}} className="row">
         <GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
+        <div id="container"  style={{marginTop:45}} className="col">
           <div id="headerContainer" className="row">
             <div id="header">
               Better Thermoworks Monitor
@@ -132,8 +132,8 @@ onTempUpdate(){
               <TempColumn curTemps={this.state.curTemps} probeDetails={this.state.probeDetails} />
               <div id="buttonContainer" className="row">
                 <div id="buttons" className="col">
-                <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
-                <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
+                  <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
+                  <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
                 </div>
               </div>
             </div>
