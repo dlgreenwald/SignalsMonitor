@@ -16,7 +16,6 @@
 .col{min-height:75px;flex-grow:1;flex-basis:100%;}
 
 #headerContainer{flex-direction:column;height:50px;min-height:50px;margin:0px;padding:0px;font-size: calc(10px + 2vmin);color:white;text-align:center;}
-#buttonContainer{flex-direction:column;height:50px;min-height:50px;margin:0px;padding:0px;font-size: calc(10px + 2vmin);color:white;text-align:center;}
 
 * { box-sizing: border-box; } 
 .row{display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;}
@@ -36,6 +35,8 @@ body{margin:0;background-color:#282c34;}
 #graphContainer{min-height:600px;}
 #cardDeck{display:flex;justify-content:center;max-width:100vw;align-items:flex-start;flex-wrap:wrap;}
 #cardDeckContainer{flex:1 0;}
+#buttons{display:flex;justify-content:center;max-width:100vw;align-items:flex-start;flex-wrap:wrap;}
+#buttonContainer{flex:1 0;}
 
 .cardContainer{width:250px;height:200px;margin-left:0px;margin-right:0px;}
 .card-deck{margin-left:0px;margin-right:0px}

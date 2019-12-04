@@ -130,12 +130,14 @@ onTempUpdate(){
                 </ContainerDimensions>
               </div>
               <TempColumn curTemps={this.state.curTemps} probeDetails={this.state.probeDetails} />
+              <div id="buttonContainer" className="row">
+                <div id="buttons" className="col">
+                <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
+                <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
+                </div>
+              </div>
             </div>
           </div>  
-          <div id="buttonContainer" className="col">
-            <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
-            <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
-          </div>
           <div id="footer" className="row">
             <div id="footerContainer" className="col">
               
