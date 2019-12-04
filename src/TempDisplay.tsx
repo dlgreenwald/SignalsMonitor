@@ -5,6 +5,8 @@ import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import {CardProps} from 'react-bootstrap/Card'
 import Container from 'react-bootstrap/Container'
+import Sound from 'react-sound'
+import alarmFile from './beeps.mp3'
 
 interface MyProps {
     name: string, 
@@ -12,6 +14,7 @@ interface MyProps {
 };
 interface MyState {
     name: string, 
+    isAlarming:boolean;
     background:CardProps["bg"],
     text:CardProps["text"],
     probe:{ "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}};
@@ -21,6 +24,7 @@ interface MyState {
         super(props);
 
         this.state = {
+            isAlarming:false,
             probe:props.probe,
             name:props.name,
             background:"light",
@@ -35,6 +39,7 @@ interface MyState {
 
         var newBackground:CardProps["bg"] = 'light';
         var newText:CardProps["text"] = "secondary";
+        var newIsAlarming = false;
         if((alarmLow < temp) && (temp < alarmHigh)){
             newBackground = 'light';
             newText = 'secondary';
@@ -42,12 +47,14 @@ interface MyState {
         if((alarmLow > temp)){
             newBackground = "primary";
             newText = 'white';
+            newIsAlarming = true;
         }
         if((temp > alarmHigh)){
             newBackground = "danger";
             newText="white";
+            newIsAlarming = true;
         }
-        this.setState({...this.state, name:nextProps.name, probe:nextProps.probe, background:newBackground, text:newText});  
+        this.setState({...this.state, name:nextProps.name, probe:nextProps.probe, background:newBackground, text:newText, isAlarming:newIsAlarming});  
       }
 
     render() {
@@ -72,6 +79,7 @@ interface MyState {
                             </Col>
                         </Row>
                     </Container>
+                    <Sound url={alarmFile} playStatus={this.state.isAlarming?Sound.status.PLAYING:Sound.status.STOPPED} loop={true}/>
                     </Card.Body>
                 </Card>
             </div>
