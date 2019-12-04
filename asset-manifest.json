@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/SignalsMontior/static/css/main.cb97bbd7.chunk.css",
-    "main.js": "/SignalsMontior/static/js/main.2ab984d7.chunk.js",
-    "main.js.map": "/SignalsMontior/static/js/main.2ab984d7.chunk.js.map",
+    "main.js": "/SignalsMontior/static/js/main.1bb89741.chunk.js",
+    "main.js.map": "/SignalsMontior/static/js/main.1bb89741.chunk.js.map",
     "runtime-main.js": "/SignalsMontior/static/js/runtime-main.c54ad051.js",
     "runtime-main.js.map": "/SignalsMontior/static/js/runtime-main.c54ad051.js.map",
     "static/css/2.85cd294e.chunk.css": "/SignalsMontior/static/css/2.85cd294e.chunk.css",
-    "static/js/2.a432a4cc.chunk.js": "/SignalsMontior/static/js/2.a432a4cc.chunk.js",
-    "static/js/2.a432a4cc.chunk.js.map": "/SignalsMontior/static/js/2.a432a4cc.chunk.js.map",
+    "static/js/2.f452ca80.chunk.js": "/SignalsMontior/static/js/2.f452ca80.chunk.js",
+    "static/js/2.f452ca80.chunk.js.map": "/SignalsMontior/static/js/2.f452ca80.chunk.js.map",
     "index.html": "/SignalsMontior/index.html",
-    "precache-manifest.e4de24185c5aaa7c90d8b40d403930e1.js": "/SignalsMontior/precache-manifest.e4de24185c5aaa7c90d8b40d403930e1.js",
+    "precache-manifest.84936a84ce8fc1a2acdfc4f6311bb73c.js": "/SignalsMontior/precache-manifest.84936a84ce8fc1a2acdfc4f6311bb73c.js",
     "service-worker.js": "/SignalsMontior/service-worker.js",
     "static/css/2.85cd294e.chunk.css.map": "/SignalsMontior/static/css/2.85cd294e.chunk.css.map",
     "static/css/main.cb97bbd7.chunk.css.map": "/SignalsMontior/static/css/main.cb97bbd7.chunk.css.map",
@@ -18,8 +18,8 @@
   "entrypoints": [
     "static/js/runtime-main.c54ad051.js",
     "static/css/2.85cd294e.chunk.css",
-    "static/js/2.a432a4cc.chunk.js",
+    "static/js/2.f452ca80.chunk.js",
     "static/css/main.cb97bbd7.chunk.css",
-    "static/js/main.2ab984d7.chunk.js"
+    "static/js/main.1bb89741.chunk.js"
   ]
 }
