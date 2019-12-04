@@ -20,6 +20,7 @@
     "react-github-corner": "^2.3.0",
     "react-metrics-graphics": "^1.1.2",
     "react-scripts": "3.2.0",
+    "react-sound": "^1.2.0",
     "typescript": "3.7.2",
     "xlsx": "^0.15.3"
   },
