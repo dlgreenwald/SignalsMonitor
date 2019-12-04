@@ -71,7 +71,7 @@ interface MyState {
                                 <Row style={{padding:0}}><Col><Row style={{fontSize:"xx-small", padding:0, margin:0}}>MaxAlarm</Row><Row style={{fontSize:"large", padding:0, margin:0}}>{this.state.probe.alarmHigh}</Row></Col></Row>
                             </Col>
                             <Col xs="4" style={{padding:0}}>
-                                <Row style={{fontSize:"xxx-large", writingMode:"vertical-lr", padding:0}}>{this.state.probe.temp}°</Row>
+                                <Row style={{fontSize:"xx-large", writingMode:"vertical-lr", padding:0}}>{this.state.probe.temp}°</Row>
                             </Col>
                             <Col xs="4" style={{padding:0}}>
                                 <Row style={{padding:0}}><Col><Row style={{fontSize:"xx-small", padding:0, margin:0}}>Min</Row><Row style={{fontSize:"large", padding:0, margin:0}}>{this.state.probe.min}</Row></Col></Row>
