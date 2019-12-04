@@ -102,9 +102,9 @@ onTempUpdate(){
 
   render() {
     return (
-      <div id="App" className="row">
-        <GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
+      <div id="App" style={{padding:0, margin:0}} className="row">
         <div id="container" className="col">
+        <GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
           <div id="headerContainer" className="row">
             <div id="header">
               Better Thermoworks Monitor
