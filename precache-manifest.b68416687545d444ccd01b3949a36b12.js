@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2e98f4f91f19224460e42439790bb665",
+    "revision": "44440dcdb23c58ae9f9655cee31ebe1a",
     "url": "/SignalsMontior/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/SignalsMontior/static/css/2.85cd294e.chunk.css"
   },
   {
-    "revision": "718a46857e5962063877",
+    "revision": "3fe65fb34ecc325d89e0",
     "url": "/SignalsMontior/static/css/main.d4799031.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/SignalsMontior/static/js/2.f452ca80.chunk.js"
   },
   {
-    "revision": "718a46857e5962063877",
-    "url": "/SignalsMontior/static/js/main.254c3e93.chunk.js"
+    "revision": "3fe65fb34ecc325d89e0",
+    "url": "/SignalsMontior/static/js/main.72026e93.chunk.js"
   },
   {
     "revision": "d8acdd132a7ef04ca9ab",
