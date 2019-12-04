@@ -16,10 +16,9 @@ interface ISignalsDevice {
 
 interface ISmokeDevice {
   device:string;
-  dateAdded:string;
-  deviceName:string;
-  probe1Name:string;
-  probe2Name:string;
+  added:string;
+  name:string;
+  serial:string;
 }
 
 interface ISignalsTempRecord{
@@ -140,27 +139,14 @@ export class ThermoworksFirebase {
 
     smokeDevicesQuery.forEach((device) => {
       var devObj = device.toJSON() as ISmokeDevice;
-      //console.log(devObj);
-      this.smokeDevices.set(devObj.deviceName,devObj);
+      this.smokeDevices.set(devObj.name,devObj);
       //init empty temp data
-      this.tempData.set(devObj.deviceName+":"+devObj.probe1Name, [])
-      this.tempData.set(devObj.deviceName+":"+devObj.probe2Name, [])
+      this.tempData.set(devObj.name+":Probe 1", [])
+      this.tempData.set(devObj.name+":Probe 2", [])
 
       //subscribe to update events on each device
       this.smokeStart(devObj);
     });
-
-    // var smokeTestArray = ["60:64:05:B3:AA:89", "F4:B8:5E:C6:42:50"];
-    // smokeTestArray.forEach((device) => {
-    //   var mockDevice:ISmokeDevice = {device:device, deviceName:device, dateAdded:new Date().toString(), probe1Name:"Probe 1", probe2Name:"Probe 2"};
-
-    //   this.smokeDevices.set(mockDevice.deviceName, mockDevice);
-
-    //   this.tempData.set(device+":"+"Probe 1", []);
-    //   this.tempData.set(device+":"+"Probe 2", []);
-
-    //   this.smokeStart(mockDevice);
-    // })
   }
 
   //Returns temp data for all probes on both smoke and signals devices
@@ -185,7 +171,7 @@ export class ThermoworksFirebase {
   
   //This starts a ongoing query with firebase for updates on a sepcific smoke device
   smokeStart(device: ISmokeDevice){
-    this.fbInstance.database().ref().child("smokeTemp").child(device.device).limitToLast(100).on("value", (snapshot_ => this.addSmokeTempData(device.deviceName, snapshot_)));
+    this.fbInstance.database().ref().child("smokeTemp").child(device.device).limitToLast(100).on("value", (snapshot_ => this.addSmokeTempData(device.name, snapshot_)));
   }
 
   //This fetches and replaces the signals device details.  It's current called once fore each temp update.  
@@ -303,9 +289,9 @@ export class ThermoworksFirebase {
     //It pains me to write code like this, but it's unavoidable with the way the data is stuctured.
     //The best thing we can do is restructure the data as soon as we have it.
     //P1
-    var temp = this.tempData.get(deviceName+":"+deviceDetails.probeNames.probe1)
+    var temp = this.tempData.get(deviceName+":Probe 1")
     if(temp !== undefined && temp[temp.length-1]!==undefined){
-      this.probeState.set(deviceName+":"+deviceDetails.probeNames.probe1, {
+      this.probeState.set(deviceName+":Probe 1", {
         temp:temp[temp.length-1].value.toString(),
         date:temp[temp.length-1].date,
         alarm:Boolean(deviceDetails.alarms.alarm1High)||Boolean(deviceDetails.alarms.alarm1Low),
@@ -318,9 +304,9 @@ export class ThermoworksFirebase {
     }
 
     //P2
-    temp = this.tempData.get(deviceName+":"+deviceDetails.probeNames.probe2)
+    temp = this.tempData.get(deviceName+":Probe 2")
     if(temp !== undefined && temp[temp.length-1]!==undefined){
-      this.probeState.set(deviceName+":"+deviceDetails.probeNames.probe2, {
+      this.probeState.set(deviceName+":Probe 2", {
         temp:temp[temp.length-1].value.toString(),
         date:temp[temp.length-1].date,
         alarm:Boolean(deviceDetails.alarms.alarm2High)||Boolean(deviceDetails.alarms.alarm2Low),
@@ -343,8 +329,8 @@ export class ThermoworksFirebase {
       d.setUTCSeconds(Number(data.time));
 
       if(device!== undefined){
-        data.probe1!=="---"&&this.tempData.get(device.deviceName+":"+device.probe1Name)!.push({date:d, value:Number(data.probe1)});
-        data.probe2!=="---"&&this.tempData.get(device.deviceName+":"+device.probe2Name)!.push({date:d, value:Number(data.probe2)});
+        data.probe1!=="-"&&this.tempData.get(device.name+":Probe 1")!.push({date:d, value:Number(data.probe1)});
+        data.probe2!=="-"&&this.tempData.get(device.name+":Probe 2")!.push({date:d, value:Number(data.probe2)});
       }
     });
 
