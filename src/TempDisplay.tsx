@@ -15,6 +15,7 @@ interface MyProps {
 interface MyState {
     name: string, 
     isAlarming:boolean;
+    isAwknoledged:boolean;
     background:CardProps["bg"],
     text:CardProps["text"],
     probe:{ "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}};
@@ -25,6 +26,7 @@ interface MyState {
 
         this.state = {
             isAlarming:false,
+            isAwknoledged:false,
             probe:props.probe,
             name:props.name,
             background:"light",
@@ -33,16 +35,19 @@ interface MyState {
     }
 
     componentWillReceiveProps(nextProps:MyProps) {
-        var temp:Number = Number(this.state.probe.temp);
-        var alarmHigh:Number = Number(this.state.probe.alarmHigh);
-        var alarmLow:Number = Number(this.state.probe.alarmLow);
+        var temp:Number = Number(nextProps.probe.temp);
+        var alarmHigh:Number = Number(nextProps.probe.alarmHigh);
+        var alarmLow:Number = Number(nextProps.probe.alarmLow);
 
         var newBackground:CardProps["bg"] = 'light';
         var newText:CardProps["text"] = "secondary";
         var newIsAlarming = false;
+        var newIsAwknowledged = this.state.isAwknoledged;
+
         if((alarmLow < temp) && (temp < alarmHigh)){
             newBackground = 'light';
             newText = 'secondary';
+            newIsAwknowledged=false;
         }
         if((alarmLow > temp)){
             newBackground = "primary";
@@ -54,14 +59,20 @@ interface MyState {
             newText="white";
             newIsAlarming = true;
         }
-        this.setState({...this.state, name:nextProps.name, probe:nextProps.probe, background:newBackground, text:newText, isAlarming:newIsAlarming});  
+        console.log("Temp Details(Low:"+alarmLow+", Temp:"+temp+",  High:"+alarmHigh+")");
+        console.log("Alarm State: "+newIsAlarming+" IsAwknowledged:"+newIsAwknowledged);
+        this.setState({...this.state, name:nextProps.name, probe:nextProps.probe, background:newBackground, text:newText, isAlarming:newIsAlarming, isAwknoledged:newIsAwknowledged});  
+      }
+
+      awknowledgeAlarm(){
+        this.setState({...this.state, isAwknoledged:true});
       }
 
     render() {
         return(
             <>
             <div className="row cardContainer">
-                <Card className="col card" style={{cursor: 'pointer'}} text={this.state.text} bg={this.state.background} border="dark" >
+                <Card className="col card" style={{cursor: 'pointer'}} text={this.state.text} bg={this.state.background} border="dark" onClick={this.awknowledgeAlarm.bind(this)}>
                     <Card.Title style={{textAlign:"center"}}>{this.state.name}</Card.Title>
                     <Card.Body style={{padding:0}}>
                     <Container fluid>
@@ -79,7 +90,7 @@ interface MyState {
                             </Col>
                         </Row>
                     </Container>
-                    <Sound url={alarmFile} playStatus={this.state.isAlarming?Sound.status.PLAYING:Sound.status.STOPPED} loop={true}/>
+                    <Sound url={alarmFile} playStatus={this.state.isAlarming&&!this.state.isAwknoledged?Sound.status.PLAYING:Sound.status.STOPPED} loop={true}/>
                     </Card.Body>
                 </Card>
             </div>
