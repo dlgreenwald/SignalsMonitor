@@ -1,7 +1,9 @@
 ![Screenshot of Graph and Temp Cards](https://github.com/dlgreenwald/SignalsMontior/raw/master/screenshot.png)
 
 ## Signals Monitor
-Signals Monitor is a project with attemps to create an improved experiance for the [Signals 4-Channel BBQ Alarm Thermometer with Wi-Fi and Bluetooth Wireless Technology](https://www.thermoworks.com/Signals).  You will need to have previously registered your Signals to your account via the mobile app.  You will provide the email and password you used to login to the Thermoworks application to connect and pull your data. Currently the only functionality is graphing and a "quick view" of all probes in an account which have active data.  This can lead to some weirdness with disonnected probes still displaying their last value (#TODO).  The quick view also provides a visual alert of Max and Min values being exceed with a color change.
+Signals Monitor is a project with attemps to create an improved experiance for the [Signals 4-Channel BBQ Alarm Thermometer with Wi-Fi and Bluetooth Wireless Technology](https://www.thermoworks.com/Signals) and the [Smoke Gateway](https://www.thermoworks.com/Smoke-Gateway).  You will need to have previously registered one or more Signals and/or Smoke Gateway(s) to your account via the mobile app.  You will provide the email and password you used to login to the Thermoworks application to connect and pull your data. Currently the only functionality is graphing and a "quick view" of all probes in an account which have active data.  This can lead to some weirdness with disonnected probes still displaying their last value (#TODO).  The quick view also provides a visual alert of Max and Min values being exceed with a color change.
+
+There are no plans to allow editing of the probe settings.
 
 It shoudl be possible to expand it to work with the [Smoke Gateway](https://www.thermoworks.com/Smoke-Gateway) the as well as the datasource is the same for both prodcuts given access to one.
 
@@ -9,13 +11,14 @@ This project was enabled by [python-thermoworks-smoke](https://pypi.org/project/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Desired upcoming features
+### Compleated Features
 * Auditory Alarm
 * Actual Site hosted on GitHub Pages
-* Save data to CSV
-* Save graph image
-* Display max and min values on graph
+* Save data to ~~CSV~~ *.xslx
 * Display lines on graph for MaxAlarm and MinAlarm (probably needs to be selectable)
+
+### Desired upcoming features
+* Save graph image
 
 ## Available Scripts
 
