@@ -166,12 +166,12 @@ export class ThermoworksFirebase {
 
   //This starts a ongoing query with firebase for updates on a sepcific signal device
   signalsStart(device: ISignalsDevice){
-    this.fbInstance.database().ref().child("SignalTemps").child(device.deviceID).limitToLast(100).on("value", (snapshot_ => this.addSignalsTempData(device.deviceName, snapshot_)));
+    this.fbInstance.database().ref().child("SignalTemps").child(device.deviceID).limitToLast(300).on("value", (snapshot_ => this.addSignalsTempData(device.deviceName, snapshot_)));
   }
   
   //This starts a ongoing query with firebase for updates on a sepcific smoke device
   smokeStart(device: ISmokeDevice){
-    this.fbInstance.database().ref().child("smokeTemp").child(device.device).limitToLast(100).on("value", (snapshot_ => this.addSmokeTempData(device.name, snapshot_)));
+    this.fbInstance.database().ref().child("smokeTemp").child(device.device).limitToLast(300).on("value", (snapshot_ => this.addSmokeTempData(device.name, snapshot_)));
   }
 
   //This fetches and replaces the signals device details.  It's current called once fore each temp update.  
