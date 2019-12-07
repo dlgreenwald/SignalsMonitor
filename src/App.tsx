@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import MetricsGraphics from 'react-metrics-graphics';
 import LoginModal from './LoginModal';
+import ShareModal from './ShareModal';
 import {ThermoworksFirebase} from './ThermoworksFirebase';
 import TempColumn from './TempColumn';
 import './mggraphics.css';
@@ -23,6 +24,7 @@ interface MyState {
   probeDetails:Map<string, { "temp":string, "date":Date, "alarm":boolean, "alarmHigh":string, "alarmLow":string, "max":string, "min":string, "name":string}>;
   showLogin:boolean;
   baselines:Array<{value:number, label:string}>;
+  shareURL:string;
 };
 class App extends Component<{}, MyState> {
   constructor(state:MyProps){
@@ -34,7 +36,8 @@ class App extends Component<{}, MyState> {
       baselines: [],
       curTemps: new Map(),
       probeDetails: new Map(),
-      showLogin:true
+      showLogin:true,
+      shareURL:""
     };
   }
 
@@ -101,8 +104,8 @@ onTempUpdate(){
   }
 
   async exportURL(){
-    console.log(JSON.stringify(this.state.tempData));
-    var response = await axios.post("https://jsonblob.com/api/jsonBlob", JSON.stringify({tempData:this.state.tempData}), {headers:{'Content-Type': 'application/json', 'Accept':'application/json'}});
+    var response = await axios.post("https://jsonblob.com/api/jsonBlob", JSON.stringify({tempData:this.state.tempData, baselines:this.state.baselines}), {headers:{'Content-Type': 'application/json', 'Accept':'application/json'}});
+    this.setState({...this.state, shareURL:"https://www.dlgreen.com/SignalsMonitor/share/"+response.headers["x-jsonblob"]})
     console.log(response.headers["x-jsonblob"]);
   }
 
@@ -140,7 +143,7 @@ onTempUpdate(){
                 <div id="buttons" className="col">
                   <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
                   <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
-                  <Button style={{width:"250px", margin:"15px"}} onClick={this.exportURL.bind(this)}>Share Graph</Button>
+                  <ShareModal url={this.state.shareURL} onShare={this.exportURL.bind(this)}/>
                 </div>
               </div>
             </div>

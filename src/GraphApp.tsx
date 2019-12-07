@@ -46,7 +46,7 @@ class Graph extends Component<Props, MyState> {
             }
             ]
         });
-    this.setState({...this.state, tempData:result.data.tempData})
+    this.setState({...this.state, tempData:result.data.tempData, baselines:result.data.baselines})
   }
 
   render() {
@@ -72,6 +72,7 @@ class Graph extends Component<Props, MyState> {
                       y_accessor="value"
                       right="40"
                       area="false"
+                      baselines={this.state.baselines}
                     />
                   }
                 </ContainerDimensions>
