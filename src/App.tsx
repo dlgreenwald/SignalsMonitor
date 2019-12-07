@@ -4,7 +4,6 @@ import './App.css';
 import MetricsGraphics from 'react-metrics-graphics';
 import LoginModal from './LoginModal';
 import {ThermoworksFirebase} from './ThermoworksFirebase';
-import 'jquery';
 import TempColumn from './TempColumn';
 import './mggraphics.css';
 import GithubCorner from 'react-github-corner';
@@ -12,6 +11,7 @@ import ContainerDimensions from 'react-container-dimensions';
 import Button from 'react-bootstrap/Button';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import axios from 'axios';
 
 interface MyProps {
 
@@ -100,6 +100,12 @@ onTempUpdate(){
     FileSaver.saveAs(data, "Temps" + fileExtension);
   }
 
+  async exportURL(){
+    console.log(JSON.stringify(this.state.tempData));
+    var response = await axios.post("https://jsonblob.com/api/jsonBlob", JSON.stringify({tempData:this.state.tempData}), {headers:{'Content-Type': 'application/json', 'Accept':'application/json'}});
+    console.log(response.headers["x-jsonblob"]);
+  }
+
   render() {
     return (
       <div id="App" style={{padding:0, margin:15}} className="row">
@@ -134,6 +140,7 @@ onTempUpdate(){
                 <div id="buttons" className="col">
                   <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
                   <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
+                  <Button style={{width:"250px", margin:"15px"}} onClick={this.exportURL.bind(this)}>Share Graph</Button>
                 </div>
               </div>
             </div>
