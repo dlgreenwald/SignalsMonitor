@@ -9,7 +9,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 ReactDOM.render(
     <Router>
         <Route exact path="/SignalsMonitor/" component={App} />
-        <Route exact path="/SignalsMonitor/share/:id" component={GraphApp} />
+        <Route exact path="/SignalsMonitor/share" component={GraphApp} />
     </Router>
     
 , document.getElementById('root'));

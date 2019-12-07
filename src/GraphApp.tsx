@@ -5,13 +5,12 @@ import MetricsGraphics from 'react-metrics-graphics';
 import './mggraphics.css';
 import GithubCorner from 'react-github-corner';
 import ContainerDimensions from 'react-container-dimensions';
-import Button from 'react-bootstrap/Button';
 import { RouteComponentProps } from 'react-router';
 import axios from 'axios';
 
 interface MatchParams {
-    id: string;
 }
+
 
 interface Props extends RouteComponentProps<MatchParams> {
 }
@@ -31,10 +30,12 @@ class Graph extends Component<Props, MyState> {
   }
 
   async componentDidMount(){
-    var id= this.props.match.params.id;
+    console.log(this.props.location.search);
+    let search = new URLSearchParams(this.props.location.search);
+    console.log(search.get("id"));
     var result = await axios({
             method: 'GET',
-            url: "https://jsonblob.com/api/jsonBlob/"+id,
+            url: "https://jsonblob.com/api/jsonBlob/"+search.get("id"),
             transformResponse:[(data) => {
                 return JSON.parse(data, (key, value) => {
                     if (key === "date"){
@@ -79,7 +80,6 @@ class Graph extends Component<Props, MyState> {
               </div>
               <div id="buttonContainer" className="row">
                 <div id="buttons" className="col">
-                  <Button style={{width:"250px", margin:"15px"}}>Share Graph</Button>
                 </div>
               </div>
             </div>

@@ -105,7 +105,7 @@ onTempUpdate(){
 
   async exportURL(){
     var response = await axios.post("https://jsonblob.com/api/jsonBlob", JSON.stringify({tempData:this.state.tempData, baselines:this.state.baselines}), {headers:{'Content-Type': 'application/json', 'Accept':'application/json'}});
-    this.setState({...this.state, shareURL:"https://www.dlgreen.com/SignalsMonitor/share/"+response.headers["x-jsonblob"]})
+    this.setState({...this.state, shareURL:"https://www.dlgreen.com/SignalsMonitor/share?id="+response.headers["x-jsonblob"]})
     console.log(response.headers["x-jsonblob"]);
   }
 
