@@ -13,10 +13,16 @@ import Button from 'react-bootstrap/Button';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import axios from 'axios';
+import { RouteComponentProps } from 'react-router';
+import Graph from './GraphApp';
 
-interface MyProps {
+interface MatchParams {
+}
 
-};
+interface Props extends RouteComponentProps<MatchParams> {
+}
+
+
 interface MyState {
   firebase: ThermoworksFirebase
   tempData:Array<Array<{ 'date': Date; 'value': number; }>>;
@@ -26,8 +32,8 @@ interface MyState {
   baselines:Array<{value:number, label:string}>;
   shareURL:string;
 };
-class App extends Component<{}, MyState> {
-  constructor(state:MyProps){
+class App extends Component<Props, MyState> {
+  constructor(state:Props){
     super(state);
 
     this.state = {
@@ -110,6 +116,13 @@ onTempUpdate(){
   }
 
   render() {
+    //If we have a url parameter ID we are showing a shared link
+    let search = new URLSearchParams(this.props.location.search);
+    console.log(search.get("id"));
+    if(search.get("id")!== null){
+      return <Graph history={this.props.history} location={this.props.location} match={this.props.match}  />
+    }
+
     return (
       <div id="App" style={{padding:0, margin:15}} className="row">
         <GithubCorner href="https://github.com/dlgreenwald/SignalsMontior" direction="left" octoColor="#212529" bannerColor="grey" />
