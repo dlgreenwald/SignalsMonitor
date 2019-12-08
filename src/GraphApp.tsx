@@ -30,9 +30,7 @@ class Graph extends Component<Props, MyState> {
   }
 
   async componentDidMount(){
-    console.log(this.props.location.search);
     let search = new URLSearchParams(this.props.location.search);
-    console.log(search.get("id"));
     var result = await axios({
             method: 'GET',
             url: "https://jsonblob.com/api/jsonBlob/"+search.get("id"),

@@ -118,7 +118,6 @@ onTempUpdate(){
   render() {
     //If we have a url parameter ID we are showing a shared link
     let search = new URLSearchParams(this.props.location.search);
-    console.log(search.get("id"));
     if(search.get("id")!== null){
       return <Graph history={this.props.history} location={this.props.location} match={this.props.match}  />
     }
