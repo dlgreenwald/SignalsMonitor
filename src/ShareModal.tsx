@@ -27,10 +27,6 @@ class ShareModal extends Component<MyProps, MyState> {
     };
   }
 
-  componentWillReceiveProps(nextProps: MyProps) {
-    this.setState({ ...this.state });
-  }
-
   handleClose() {
     this.setState({ ...this.state, show: false });
   }

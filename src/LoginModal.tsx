@@ -11,7 +11,6 @@ interface MyProps {
   onLogin:(username:string, password:string) => any;
 };
 interface MyState {
-  show: boolean
   username: string
   password: string
   loginSubmitted:boolean
@@ -28,23 +27,18 @@ class LoginModal extends Component<MyProps, MyState> {
     this.handleSubmit = this.handleSubmit.bind(this);
 
 		this.state = {
-			show: props.show,
       username: '',
       password: '',
       loginSubmitted:false
 		};
   }
 
-  componentWillReceiveProps(nextProps:MyProps) {
-    this.setState({...this.state, show:nextProps.show});  
-  }
-
   handleClose() {
-		this.setState({...this.state, show: false });
+		this.setState({...this.state});
 	}
 
 	handleShow() {
-		this.setState({...this.state, show: true, loginSubmitted:false});
+		this.setState({...this.state, loginSubmitted:false});
 	}
 
   handleChange(event: React.FormEvent) {
@@ -62,7 +56,7 @@ class LoginModal extends Component<MyProps, MyState> {
     return (
       <>
       <Button style={{width:"250px", margin:"15px"}} variant="primary" onClick={this.handleShow}>Get Started</Button>
-      <Modal show={this.state.show}>
+      <Modal show={this.props.show}>
       <Form onSubmit={this.handleSubmit}>
         <Modal.Header>
           <Modal.Title>Login with Thermoworks Account</Modal.Title>
