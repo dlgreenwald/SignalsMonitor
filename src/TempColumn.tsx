@@ -31,7 +31,7 @@ interface MyState {
     render() {
         var TempElements:Array<JSX.Element> = [];
         this.state.probeDetails.forEach((device, key) => 
-            TempElements.push(<TempDisplay name={key} probe={device}/>)
+            TempElements.push(<TempDisplay key={key} name={key} probe={device}/>)
     )
         return(
             <>
