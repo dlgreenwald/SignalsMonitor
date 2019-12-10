@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "5d4c6e27976f6917d418f731d06558c3",
+    "revision": "51799aa3ae2c236fc6e42b7ada0b941d",
     "url": "/SignalsMonitor/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/SignalsMonitor/static/css/2.85cd294e.chunk.css"
   },
   {
-    "revision": "ed750772932d98b3c062",
+    "revision": "6107f54310b219fcde75",
     "url": "/SignalsMonitor/static/css/main.d4799031.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/SignalsMonitor/static/js/2.7c3db24f.chunk.js"
   },
   {
-    "revision": "ed750772932d98b3c062",
-    "url": "/SignalsMonitor/static/js/main.e07c5c1f.chunk.js"
+    "revision": "6107f54310b219fcde75",
+    "url": "/SignalsMonitor/static/js/main.f793d259.chunk.js"
   },
   {
     "revision": "b48c7bdeb689ccae843b",
