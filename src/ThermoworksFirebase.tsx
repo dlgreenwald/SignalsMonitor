@@ -145,7 +145,7 @@ export class ThermoworksFirebase {
     let smokeDevicesQuery = await this.fbInstance.database().ref().child("users").child(this.uid).child("devices").child("smoke").once("value");
 
     for (let device in smokeDevicesQuery.toJSON()){
-      console.log(signalsDevicesQuery.val()[device]);
+      console.log(smokeDevicesQuery.val()[device]);
       let devObj = smokeDevicesQuery.val()[device] as ISmokeDevice;
       this.smokeDevices.set(devObj.name,devObj);
       //init empty temp data
