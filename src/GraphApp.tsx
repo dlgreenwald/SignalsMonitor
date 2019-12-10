@@ -18,6 +18,7 @@ interface Props extends RouteComponentProps<MatchParams> {
 interface MyState {
   tempData:Array<Array<{ 'date': Date; 'value': number; }>>;
   baselines:Array<{value:number, label:string}>;
+  markers:Array<{'date':Date; 'label':string}>;
 };
 class Graph extends Component<Props, MyState> {
   constructor(state:Props){
@@ -25,7 +26,8 @@ class Graph extends Component<Props, MyState> {
 
     this.state = {
       tempData:  [],
-      baselines: []
+      baselines: [],
+      markers: []
     };
   }
 
@@ -45,7 +47,7 @@ class Graph extends Component<Props, MyState> {
             }
             ]
         });
-    this.setState({...this.state, tempData:result.data.tempData, baselines:result.data.baselines})
+    this.setState({...this.state, tempData:result.data.tempData, baselines:result.data.baselines, markers:result.data.markers})
   }
 
   render() {
@@ -72,6 +74,8 @@ class Graph extends Component<Props, MyState> {
                       right="40"
                       area="false"
                       baselines={this.state.baselines}
+                      aggregate_rollover="true"
+                      markers={this.state.markers}
                     />
                   }
                 </ContainerDimensions>

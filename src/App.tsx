@@ -4,6 +4,7 @@ import './App.css';
 import MetricsGraphics from 'react-metrics-graphics';
 import LoginModal from './LoginModal';
 import ShareModal from './ShareModal';
+import MarkerModal from './MarkerModal';
 import {ThermoworksFirebase} from './ThermoworksFirebase';
 import TempColumn from './TempColumn';
 import './mggraphics.css';
@@ -31,6 +32,10 @@ interface MyState {
   showLogin:boolean;
   baselines:Array<{value:number, label:string}>;
   shareURL:string;
+  markers:Array<{'date':Date; 'label':string}>;
+  addingMarker:boolean,
+  selectedDate:Date
+
 };
 class App extends Component<Props, MyState> {
   constructor(state:Props){
@@ -43,7 +48,10 @@ class App extends Component<Props, MyState> {
       curTemps: new Map(),
       probeDetails: new Map(),
       showLogin:true,
-      shareURL:""
+      shareURL:"",
+      markers: [],
+      addingMarker:false,
+      selectedDate: new Date()
     };
   }
 
@@ -110,9 +118,17 @@ onTempUpdate(){
   }
 
   async exportURL(){
-    var response = await axios.post("https://jsonblob.com/api/jsonBlob", JSON.stringify({tempData:this.state.tempData, baselines:this.state.baselines}), {headers:{'Content-Type': 'application/json', 'Accept':'application/json'}});
+    var response = await axios.post("https://jsonblob.com/api/jsonBlob", JSON.stringify({tempData:this.state.tempData, baselines:this.state.baselines, markers:this.state.markers}), {headers:{'Content-Type': 'application/json', 'Accept':'application/json'}});
     this.setState({...this.state, shareURL:"https://www.dlgreen.com/SignalsMonitor?id="+response.headers["x-jsonblob"]})
-    console.log(response.headers["x-jsonblob"]);
+  }
+
+  onGraphClick(d:{date:Date, value:number, index:number, line_id:number}){
+    this.setState({...this.state, selectedDate:d.date, addingMarker:true})
+  }
+
+  saveAnnotation(date:Date, annotation:string){
+    this.state.markers.push({"date":date, "label":annotation});
+    this.setState({...this.state, addingMarker:false });
   }
 
   render() {
@@ -146,6 +162,9 @@ onTempUpdate(){
                       area="false"
                       brush="xy"
                       baselines={this.state.baselines}
+                      aggregate_rollover="true"
+                      click={this.onGraphClick.bind(this)}
+                      markers={this.state.markers}
                     />
                   }
                 </ContainerDimensions>
@@ -156,6 +175,7 @@ onTempUpdate(){
                   <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
                   <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
                   <ShareModal url={this.state.shareURL} onShare={this.exportURL.bind(this)}/>
+                  <MarkerModal show={this.state.addingMarker} date={this.state.selectedDate} onSave={this.saveAnnotation.bind(this)}></MarkerModal>
                 </div>
               </div>
             </div>
