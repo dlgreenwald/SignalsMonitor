@@ -29,6 +29,8 @@ interface MyState {
         if(state.isAwknoledged && (props.probe.alarmLow < props.probe.temp) && (props.probe.temp < props.probe.alarmHigh)){
            return {isAwknoledged:false};
         }
+
+        return null;
     }
 
     awknowledgeAlarm(){
