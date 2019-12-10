@@ -7,10 +7,10 @@ import Modal from 'react-bootstrap/Modal'
 interface MyProps {
   date:Date,
   onSave: (date:Date, annotation:string) => any;
+  onClose: () => any;
   show:boolean;
 };
 interface MyState {
-  show: boolean;
   annotationText:string;
   textEntered:boolean;
 };
@@ -27,18 +27,16 @@ class MarkerModal extends Component<MyProps, MyState> {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      show: false,
       textEntered:false,
       annotationText: ""
     };
   }
 
   handleClose() {
-    this.setState({ ...this.state, show: false });
+    this.props.onClose();
   }
 
   handleShow() {
-    this.setState({ ...this.state, show: true });
   }
 
   handleChange(event: React.FormEvent) {

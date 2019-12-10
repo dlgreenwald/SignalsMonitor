@@ -76,6 +76,7 @@ class Graph extends Component<Props, MyState> {
                       baselines={this.state.baselines}
                       aggregate_rollover="true"
                       markers={this.state.markers}
+                      missing_is_hidden="true"
                     />
                   }
                 </ContainerDimensions>

@@ -131,6 +131,10 @@ onTempUpdate(){
     this.setState({...this.state, addingMarker:false });
   }
 
+  closeAnnotation(){
+    this.setState({...this.state, addingMarker:false });
+  }
+
   render() {
     //If we have a url parameter ID we are showing a shared link
     let search = new URLSearchParams(this.props.location.search);
@@ -165,6 +169,7 @@ onTempUpdate(){
                       aggregate_rollover="true"
                       click={this.onGraphClick.bind(this)}
                       markers={this.state.markers}
+                      missing_is_hidden="true"
                     />
                   }
                 </ContainerDimensions>
@@ -175,7 +180,7 @@ onTempUpdate(){
                   <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
                   <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
                   <ShareModal url={this.state.shareURL} onShare={this.exportURL.bind(this)}/>
-                  <MarkerModal show={this.state.addingMarker} date={this.state.selectedDate} onSave={this.saveAnnotation.bind(this)}></MarkerModal>
+                  <MarkerModal show={this.state.addingMarker} date={this.state.selectedDate} onSave={this.saveAnnotation.bind(this)} onClose={this.closeAnnotation.bind(this)}></MarkerModal>
                 </div>
               </div>
             </div>
