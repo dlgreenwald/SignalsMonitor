@@ -49,7 +49,7 @@ class ShareModal extends Component<MyProps, MyState> {
               </Button>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Login with Thermoworks Account</Modal.Title>
+            <Modal.Title>Share Graph</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
