@@ -33,9 +33,9 @@ interface MyState {
   showLogin:boolean;
   baselines:Array<{value:number, label:string}>;
   shareURL:string;
-  markers:Array<{'date':Date; 'label':string}>;
+  markers:Map<string, {'date':Date; 'label':string}>;
   addingMarker:boolean,
-  selectedDate:Date
+  selectedDate:{'date':Date; 'label':string}
 
 };
 class App extends Component<Props, MyState> {
@@ -50,9 +50,9 @@ class App extends Component<Props, MyState> {
       probeDetails: new Map(),
       showLogin:true,
       shareURL:"",
-      markers: [],
+      markers: new Map(),
       addingMarker:false,
-      selectedDate: new Date()
+      selectedDate: {"date": new Date(), "label":""}
     };
   }
 
@@ -128,12 +128,22 @@ onTempUpdate(){
   }
 
   onGraphClick(d:{date:Date, value:number, index:number, line_id:number}){
-    this.setState({...this.state, selectedDate:d.date, addingMarker:true})
+    let value = this.state.markers.get(d.date.toString());
+    if (value === undefined){
+      value = {"date":d.date, "label":""}
+    }
+
+    this.setState({...this.state, selectedDate:value, addingMarker:true})
   }
 
   saveAnnotation(date:Date, annotation:string){
-    this.state.markers.push({"date":date, "label":annotation});
-    this.setState({...this.state, addingMarker:false });
+    this.state.markers.set(date.toString(), {"date":date, "label":annotation});
+    this.setState({...this.state, markers:this.state.markers, addingMarker:false });
+  }
+
+  deleteAnnotation(date:Date){
+    this.state.markers.delete(date.toString());
+    this.setState({...this.state, markers:this.state.markers, addingMarker:false });
   }
 
   closeAnnotation(){
@@ -173,7 +183,7 @@ onTempUpdate(){
                       baselines={this.state.baselines}
                       aggregate_rollover="true"
                       click={this.onGraphClick.bind(this)}
-                      markers={this.state.markers}
+                      markers={Array.from(this.state.markers.values())}
                       missing_is_hidden="true"
                     />
                   }
@@ -186,7 +196,14 @@ onTempUpdate(){
                   <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
                   <Button style={{width:"250px", margin:"15px"}} onClick={this.exportPNG.bind(this)}>Save Graph as PNG</Button>
                   <ShareModal url={this.state.shareURL} onShare={this.exportURL.bind(this)}/>
-                  <MarkerModal show={this.state.addingMarker} date={this.state.selectedDate} onSave={this.saveAnnotation.bind(this)} onClose={this.closeAnnotation.bind(this)}></MarkerModal>
+                  <MarkerModal 
+                    show={this.state.addingMarker} 
+                    date={this.state.selectedDate} 
+                    onSave={this.saveAnnotation.bind(this)} 
+                    onClose={this.closeAnnotation.bind(this)}
+                    onDelete={this.deleteAnnotation.bind(this)} 
+                    key={this.state.selectedDate.date.toString()}
+                  />
                 </div>
               </div>
             </div>

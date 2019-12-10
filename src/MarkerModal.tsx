@@ -5,9 +5,10 @@ import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 
 interface MyProps {
-  date:Date,
+  date:{'date':Date; 'label':string},
   onSave: (date:Date, annotation:string) => any;
   onClose: () => any;
+  onDelete: (date:Date) => any;
   show:boolean;
 };
 interface MyState {
@@ -25,6 +26,7 @@ class MarkerModal extends Component<MyProps, MyState> {
     this.handleClose = this.handleClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
 
     this.state = {
       textEntered:false,
@@ -51,8 +53,11 @@ class MarkerModal extends Component<MyProps, MyState> {
 
   handleSubmit(event:React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    this.props.onSave(this.props.date, this.state.annotationText);
-    
+    this.props.onSave(this.props.date.date, this.state.annotationText);
+  }
+
+  handleDelete(){
+    this.props.onDelete(this.props.date.date);
   }
 
   render() {
@@ -69,13 +74,17 @@ class MarkerModal extends Component<MyProps, MyState> {
                 <Form.Control name="annotationText" value={this.state.annotationText} placeholder="Please enter text" onChange={this.handleChange} />
               </Form.Group>
             </Modal.Body>
-            <Modal.Footer><Button variant="primary" onClick={this.handleClose}>
-              Close
-                  </Button>
+            <Modal.Footer>
+              <Button variant="danger" onClick={this.handleDelete}>
+                Delete
+              </Button>
+              <Button variant="primary" onClick={this.handleClose}>
+                Close
+              </Button>
 
               <Button type="submit" variant="primary" disabled={!this.state.textEntered}>
                 Save
-          </Button>
+              </Button>
             </Modal.Footer>
           </Form>
         </Modal>
