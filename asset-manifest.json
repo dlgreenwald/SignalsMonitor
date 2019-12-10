@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/SignalsMonitor/static/css/main.d4799031.chunk.css",
-    "main.js": "/SignalsMonitor/static/js/main.f793d259.chunk.js",
-    "main.js.map": "/SignalsMonitor/static/js/main.f793d259.chunk.js.map",
+    "main.js": "/SignalsMonitor/static/js/main.ba9e5a56.chunk.js",
+    "main.js.map": "/SignalsMonitor/static/js/main.ba9e5a56.chunk.js.map",
     "runtime-main.js": "/SignalsMonitor/static/js/runtime-main.06a097b0.js",
     "runtime-main.js.map": "/SignalsMonitor/static/js/runtime-main.06a097b0.js.map",
     "static/css/2.85cd294e.chunk.css": "/SignalsMonitor/static/css/2.85cd294e.chunk.css",
     "static/js/2.7c3db24f.chunk.js": "/SignalsMonitor/static/js/2.7c3db24f.chunk.js",
     "static/js/2.7c3db24f.chunk.js.map": "/SignalsMonitor/static/js/2.7c3db24f.chunk.js.map",
     "index.html": "/SignalsMonitor/index.html",
-    "precache-manifest.846da168ef18927b9bbefee9de07402e.js": "/SignalsMonitor/precache-manifest.846da168ef18927b9bbefee9de07402e.js",
+    "precache-manifest.cd3eca2189ba26d86e2e607f3bb89269.js": "/SignalsMonitor/precache-manifest.cd3eca2189ba26d86e2e607f3bb89269.js",
     "service-worker.js": "/SignalsMonitor/service-worker.js",
     "static/css/2.85cd294e.chunk.css.map": "/SignalsMonitor/static/css/2.85cd294e.chunk.css.map",
     "static/css/main.d4799031.chunk.css.map": "/SignalsMonitor/static/css/main.d4799031.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.85cd294e.chunk.css",
     "static/js/2.7c3db24f.chunk.js",
     "static/css/main.d4799031.chunk.css",
-    "static/js/main.f793d259.chunk.js"
+    "static/js/main.ba9e5a56.chunk.js"
   ]
 }
