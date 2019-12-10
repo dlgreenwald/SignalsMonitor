@@ -7,3 +7,4 @@ declare module "*.mp3" {
     export default content;
   }
 declare module "react-router-dom";
+declare module "save-svg-as-png";

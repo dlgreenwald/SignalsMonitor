@@ -16,6 +16,7 @@ import * as XLSX from 'xlsx';
 import axios from 'axios';
 import { RouteComponentProps } from 'react-router';
 import Graph from './GraphApp';
+import SaveSvgAsPng from 'save-svg-as-png';
 
 interface MatchParams {
 }
@@ -117,6 +118,10 @@ onTempUpdate(){
     FileSaver.saveAs(data, "Temps" + fileExtension);
   }
 
+  exportPNG(){
+    SaveSvgAsPng.saveSvgAsPng(document.getElementById("graphContainer")!.children[0].children[0], "temps.png", {width:1000, backgroundColor:"#282c34"});
+  }
+
   async exportURL(){
     var response = await axios.post("https://jsonblob.com/api/jsonBlob", JSON.stringify({tempData:this.state.tempData, baselines:this.state.baselines, markers:this.state.markers}), {headers:{'Content-Type': 'application/json', 'Accept':'application/json'}});
     this.setState({...this.state, shareURL:"https://www.dlgreen.com/SignalsMonitor?id="+response.headers["x-jsonblob"]})
@@ -179,6 +184,7 @@ onTempUpdate(){
                 <div id="buttons" className="col">
                   <LoginModal show={this.state.showLogin} onLogin={this.onLogin.bind(this)} />
                   <Button style={{width:"250px", margin:"15px"}} onClick={this.exportXLSX.bind(this)}>Download *.xlsx</Button>
+                  <Button style={{width:"250px", margin:"15px"}} onClick={this.exportPNG.bind(this)}>Save Graph as PNG</Button>
                   <ShareModal url={this.state.shareURL} onShare={this.exportURL.bind(this)}/>
                   <MarkerModal show={this.state.addingMarker} date={this.state.selectedDate} onSave={this.saveAnnotation.bind(this)} onClose={this.closeAnnotation.bind(this)}></MarkerModal>
                 </div>
