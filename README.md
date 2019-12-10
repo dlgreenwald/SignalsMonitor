@@ -16,9 +16,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * Actual Site hosted on GitHub Pages
 * Save data to ~~CSV~~ *.xslx
 * Display lines on graph for MaxAlarm and MinAlarm (probably needs to be selectable)
+* Generate a link to share the Graph
+* Create Annotations by clicking on points on the graph
 
 ### Desired upcoming features
 * Save graph image
+* Edit/Delete Annotation
 
 ## Available Scripts
 
