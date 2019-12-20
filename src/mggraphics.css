@@ -1,5 +1,5 @@
 .mg-active-datapoint {
-    fill: black;
+    fill: #b3b2b2;
     font-size: 0.9rem;
     font-weight: 400;
     opacity: 0.8;
@@ -89,7 +89,7 @@ text.mg-barplot-group-label {
 }
 
 .mg-baselines text {
-    fill: black;
+    fill: #b3b2b2;
     font-size: 0.9rem;
     opacity: 0.6;
     stroke: none;
@@ -381,7 +381,7 @@ tspan.hist-symbol {
 }
 
 .mg-markers text {
-    fill: black;
+    fill: #b3b2b2;
     font-size: 0.8rem;
     opacity: 0.6;
 }
@@ -478,7 +478,7 @@ tspan.mg-points-mono {
 .mg-x-axis text,
 .mg-y-axis text,
 .mg-histogram .axis text {
-    fill: black;
+    fill: #b3b2b2;
     font-size: 0.9rem;
     opacity: 0.6;
 }
