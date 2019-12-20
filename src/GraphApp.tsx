@@ -68,11 +68,12 @@ class Graph extends Component<Props, MyState> {
                     <MetricsGraphics
                       data={this.state.tempData}
                       width={width}
-                      height={600}
+                      height={(width*9/16)>600?width*9/16:600}
                       x_accessor="date"
                       y_accessor="value"
                       right="40"
                       area="false"
+                      brush="xy"
                       baselines={this.state.baselines}
                       aggregate_rollover="true"
                       markers={this.state.markers}

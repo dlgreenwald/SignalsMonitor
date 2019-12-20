@@ -63,7 +63,7 @@ class App extends Component<Props, MyState> {
     this.setState({...this.state, showLogin:false})
   }
 
-onTempUpdate(){
+  onTempUpdate(){
     //Store most recent data as Map for display
     var newCurTemps:Map<string, { 'date': Date; 'value': number; }> = new Map();
     this.state.firebase.returnTempData().forEach((probe, key)=>{
@@ -82,9 +82,11 @@ onTempUpdate(){
 
     var newBaselines:Array<{value:number, label:string}> =  [];
     this.state.firebase.returnProbeDetails().forEach((value, key) => {
-      newBaselines.push({value:Number(value.alarmHigh), label:key+" High"});
+      if(value.alarmHigh!=="32"){
+        newBaselines.push({value:Number(value.alarmHigh), label:value.alarmHigh+"°"});
+      }
       if(value.alarmLow!=="32"){
-        newBaselines.push({value:Number(value.alarmLow), label:key+" Low"})
+        newBaselines.push({value:Number(value.alarmLow), label:value.alarmLow+"°"})
       }
     })
 
@@ -119,7 +121,8 @@ onTempUpdate(){
   }
 
   exportPNG(){
-    SaveSvgAsPng.saveSvgAsPng(document.getElementById("graphContainer")!.children[0].children[0], "temps.png", {width:1000, backgroundColor:"#282c34"});
+    let graphElement = document.getElementById("graphContainer")!.children[0].children[0];
+    SaveSvgAsPng.saveSvgAsPng(graphElement, "temps.png", {height:graphElement.getBoundingClientRect().height ,width:graphElement.getBoundingClientRect().width, backgroundColor:"#282c34"});
   }
 
   async exportURL(){
@@ -174,7 +177,7 @@ onTempUpdate(){
                     <MetricsGraphics
                       data={this.state.tempData}
                       width={width}
-                      height={600}
+                      height={(width*9/16)>600?width*9/16:600}
                       x_accessor="date"
                       y_accessor="value"
                       right="40"
