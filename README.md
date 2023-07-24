@@ -1,3 +1,6 @@
+# Depricated
+Thermoworks has improved their app, and this tool is no longer necessary.  Additionally, code rot has set in and dependancies have vulnerabilities.  Thus I'm archiving this.
+
 ![Screenshot of Graph and Temp Cards](https://github.com/dlgreenwald/SignalsMontior/raw/master/screenshot.png)
 
 ## Signals Monitor
